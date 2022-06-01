@@ -16,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		492D93F4283644D000F592A4 /* .gitignore.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = .gitignore.md; sourceTree = "<group>"; };
 		496F79BE28317F8300CB597E /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		49D7F4F8282EC2BA0022E266 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49D7F4FB282EC2BA0022E266 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +72,7 @@
 				49D7F511282EC39D0022E266 /* ViewModel */,
 				49D7F510282EC3900022E266 /* View */,
 				49D7F50F282EC3870022E266 /* Model */,
+				492D93F4283644D000F592A4 /* .gitignore.md */,
 			);
 			path = WeatherApp;
 			sourceTree = "<group>";
