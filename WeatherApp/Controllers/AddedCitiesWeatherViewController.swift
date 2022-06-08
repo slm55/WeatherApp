@@ -8,12 +8,17 @@
 import UIKit
 
 class AddedCitiesWeatherViewController: UIViewController {
+    enum DegreeType {
+        case celsius
+        case fahrenheit
+    }
+    
     var addedCities = [String]()
+    var selectedDegreeType: DegreeType = .celsius
     
     private let celsiusButton: UIButton = {
         let button = UIButton()
         button.setTitle("℃", for: .normal)
-        button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -28,10 +33,9 @@ class AddedCitiesWeatherViewController: UIViewController {
         return label
     }()
     
-    private let farenheitButton: UIButton = {
+    private let fahrenheitButton: UIButton = {
         let button = UIButton()
         button.setTitle("℉", for: .normal)
-        button.setTitleColor(.gray, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -61,16 +65,20 @@ class AddedCitiesWeatherViewController: UIViewController {
         super.loadView()
         view.addSubview(celsiusButton)
         view.addSubview(slashLabel)
-        view.addSubview(farenheitButton)
+        view.addSubview(fahrenheitButton)
         view.addSubview(searchButton)
         view.backgroundColor = .white
         if addedCities.isEmpty {
             view.addSubview(addCityButton)
+            addCityButton.addTarget(self, action: #selector(didTapAddCityButton), for: .touchUpInside)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        celsiusButton.addTarget(self, action: #selector(didTapCelsiusButton), for: .touchUpInside)
+        fahrenheitButton.addTarget(self, action: #selector(didTapFarenheitButton), for: .touchUpInside)
+        setButtons()
     }
     
     override func viewDidLayoutSubviews() {
@@ -78,16 +86,16 @@ class AddedCitiesWeatherViewController: UIViewController {
         let degreeButtonsConstraints = [
             celsiusButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             celsiusButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            slashLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            slashLabel.topAnchor.constraint(equalTo: celsiusButton.topAnchor),
             slashLabel.leadingAnchor.constraint(equalTo: celsiusButton.trailingAnchor, constant: 5),
             slashLabel.centerYAnchor.constraint(equalTo: celsiusButton.centerYAnchor),
-            farenheitButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            farenheitButton.leadingAnchor.constraint(equalTo: slashLabel.trailingAnchor, constant: 3)
+            fahrenheitButton.topAnchor.constraint(equalTo: celsiusButton.topAnchor),
+            fahrenheitButton.leadingAnchor.constraint(equalTo: slashLabel.trailingAnchor, constant: 3)
         ]
         NSLayoutConstraint.activate(degreeButtonsConstraints)
         
         let searchButtonConstraints = [
-            searchButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchButton.topAnchor.constraint(equalTo: celsiusButton.topAnchor),
             searchButton.centerYAnchor.constraint(equalTo: celsiusButton.centerYAnchor),
             searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ]
@@ -95,6 +103,30 @@ class AddedCitiesWeatherViewController: UIViewController {
         
         addCityButton.center = view.center
     }
-
+    
+    @objc private func didTapCelsiusButton() {
+        selectedDegreeType = .celsius
+        setButtons()
+    }
+    
+    @objc private func didTapFarenheitButton() {
+        selectedDegreeType = .fahrenheit
+        setButtons()
+    }
+    
+    @objc private func didTapAddCityButton() {
+        let vc = UINavigationController(rootViewController: CitySearchViewController())
+        present(vc, animated: true, completion: nil)
+    }
+    
+    private func setButtons() {
+        if selectedDegreeType == .celsius {
+            celsiusButton.setTitleColor(.black, for: .normal)
+            fahrenheitButton.setTitleColor(.gray, for: .normal)
+        } else {
+            celsiusButton.setTitleColor(.gray, for: .normal)
+            fahrenheitButton.setTitleColor(.black, for: .normal)
+        }
+    }
 }
 
